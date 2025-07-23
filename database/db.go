@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"log"
+	"order-api/models"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -27,4 +28,5 @@ func ConnectDB() {
 	}
 
 	fmt.Println("Database is successfully connected")
+	DB.AutoMigrate(&models.User{}, &models.Product{}, &models.Order{})
 }
