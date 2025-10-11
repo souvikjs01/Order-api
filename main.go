@@ -14,7 +14,7 @@ func welcome(c *fiber.Ctx) error {
 func main() {
 	database.ConnectDB()
 	app := fiber.New()
-	app.Get("/api", welcome)
+	app.Get("/", welcome)
 
 	routes.Router(app)
 
