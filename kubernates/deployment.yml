@@ -2,7 +2,7 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: go-order-app-deployment
-  namespace: order-app
+  namespace: nginx       # order-app
   labels:
     app: order-app
 spec:
