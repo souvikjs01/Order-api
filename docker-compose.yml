@@ -28,8 +28,8 @@ services:
       context: .
     ports:
       - "3000:3000"
-    environment:
-      - DATABASE_URL=postgres://myuser:password123@postgres:5432/mydb?sslmode=disable
+    # environment:
+      # - DATABASE_URL=postgres://myuser:password123@postgres:5432/mydb?sslmode=disable
     networks:
       - go-backend
     restart: always
