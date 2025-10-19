@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: postgres-db
+    image: postgres:16
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: mydb
+    volumes:
+      - pgdata:/var/lib/postgresql
+    networks:
+      - go-backend
+    restart: always
+    healthcheck:
+      test: ["CMD", "pg_isready -U myuser -d mydb"]
+      interval: 5s       # check every 5 seconds
+      timeout: 5s        # give 5s for response
+      retries: 5         # try 5 times before marking as unhealthy
+      start_period: 30s
+    ports:
+      - "5432:5432"
+  
+  order-api:
+    container_name: go-order-backend
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://myuser:password123@postgres-db:5432/mydb?sslmode=disable
+    networks:
+      - go-backend
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl -f http://localhost:3000/health || exit 1"]
+      interval: 10s         # check every 10 seconds
+      timeout: 5s           # fail if no response within 5s
+      retries: 5            # mark unhealthy after 3 failed attempts
+      start_period: 30s     # wait 5s before first check
+    depends_on:
+      - postgres
+    
+volumes:
+  pgdata:
+
+networks:
+  go-backend
