@@ -1,22 +1,21 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: go-order-app-deployment
-  namespace: nginx       # order-app
-  labels:
-    app: order-app
+  name: go-app
+  namespace: order-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: order-app
+      app: go-app
   template:
     metadata:
+      name: go-app
       labels:
-        app: order-app
+        app: go-app
     spec:
       containers:
-      - name: order-app
-        image: souvik741156/order-api
+      - name: 
+        image: souvik741156/order-api:latest
         ports:
         - containerPort: 3000
